@@ -74,10 +74,22 @@ val publicaciones: List[Publicacion] = List(
   )
 )
 
+val puntajes = Map("like"  -> 1, "love"  -> 3, "wow"   -> 2, "haha"  -> 1, "angry" -> -1)
 
-
-val puntajeNumerico = publicaciones.map(_.reacciones.map).size
 case class PublicacionConPuntaje(pub: Publicacion, puntaje: Int)
+
+def publicacionImpac(publi: List[Publicacion], longitudMinima: Int): PublicacionConPuntaje = {
+
+  val puntajes = Map("like"  -> 1, "love"  -> 3, "wow"   -> 2, "haha"  -> 1, "angry" -> -1)
+  val filtradas = publi.filter(p => p.texto.length >= longitudMinima)
+  val puntuadas: List[PublicacionConPuntaje] = filtradas.map { p =>
+      var p.puntajesReacciones = p.reacciones.map
+      val puntajeTotal = puntajesReacciones.sum
+      PublicacionConPuntaje(p, puntajeTotal)
+    }
+  puntuadas.maxBy(_.puntaje)
+}
+
 
 
 
