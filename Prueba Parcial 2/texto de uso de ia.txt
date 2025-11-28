@@ -1,15 +1,60 @@
 necesito q me corrigas este codigo para q funcione val puntajes = Map("like"  -> 1, "love"  -> 3, "wow"   -> 2, "haha"  -> 1, "angry" -> -1)
+val puntajes = Map(
+  "like"  -> 1,
+  "love"  -> 3,
+  "wow"   -> 2,
+  "haha"  -> 1,
+  "angry" -> -1
+)
 
 case class PublicacionConPuntaje(pub: Publicacion, puntaje: Int)
 
 def publicacionImpac(publi: List[Publicacion], longitudMinima: Int): PublicacionConPuntaje = {
 
-  val puntajes = Map("like"  -> 1, "love"  -> 3, "wow"   -> 2, "haha"  -> 1, "angry" -> -1)
+  val puntajes = Map("like" -> 1, "love" -> 3, "wow" -> 2, "haha" -> 1, "angry" -> -1)
+
+  // 1. Filtrar por longitud
   val filtradas = publi.filter(p => p.texto.length >= longitudMinima)
+
+  // 2. Calcular puntaje de cada publicación
   val puntuadas: List[PublicacionConPuntaje] = filtradas.map { p =>
-      var p.puntajesReacciones = p.reacciones.map
-      val puntajeTotal = puntajesReacciones.sum
-      PublicacionConPuntaje(p, puntajeTotal)
-    }
+
+    // convertir reacciones a valores numéricos
+    val puntajesReacciones = p.reacciones.map(r => puntajes.getOrElse(r, 0))
+
+    // sumar puntaje total
+    val puntajeTotal = puntajesReacciones.sum
+
+    // crear objeto resultado
+    PublicacionConPuntaje(p, puntajeTotal)
+  }
+
+  // 3. seleccionar la publicación con mayor puntaje
   puntuadas.maxBy(_.puntaje)
 }
+✅ ¿Qué fue corregido?
+❌ Error 1: var p.puntajesReacciones = ...
+No existe asignación de campos así en Scala.
+
+✔️ Solución:
+Declarar una val normal dentro del bloque:
+
+scala
+Copiar código
+val puntajesReacciones = p.reacciones.map(...)
+❌ Error 2: .map estaba incompleto
+No estabas aplicando la función dentro del map.
+
+✔️ Solución:
+scala
+Copiar código
+p.reacciones.map(r => puntajes.getOrElse(r, 0))
+❌ Error 3: puntajesReacciones no estaba declarado
+El compilador no lo encontraba.
+
+Si quieres, puedo:
+✅ Mostrarte cómo llamarlo con tus datos
+✅ Mostrar quién gana realmente con tu lista de publicaciones
+✅ Convertirlo a versión recursiva si tu profe lo pide
+
+Solo dime y te lo hago rápido.
